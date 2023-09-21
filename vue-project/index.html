@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="makepagenice.css">
+  <script type="importmap">
+    {
+        "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+        }
+    }
+</script>
+
+  <title>LearningLinx - Personal Learning Tracker</title>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>LearningLinx</h1>
+      <nav>
+        <ul>
+          <li>Home</li>
+          <li>Subjects</li>
+          <li>Goals</li>
+          <li>Profile</li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section class="dashboard">
+        <h2>Welcome, <span id="username">{{ username }}</span>!</h2>
+        <div class="progress-bar">
+          <div class="progress" :style="{ width: currentProgress + '%' }"></div>
+        </div>
+        <button id="set-goal" @click="setUsername">Set New Goal</button>
+      </section>
+      <section class="subjects">
+        <h2>Your Subjects</h2>
+        <ul>
+          <li>Mathematics</li>
+          <li>Science</li>
+          <li>Language Arts</li>
+        </ul>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; 2023 LearningLinx. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          username: "[Username]", // Initial value for username
+          currentProgress: 60,    // Initial progress
+          targetProgress: 80     // Target progress
+        };
+      },
+      methods: {
+        setUsername() {
+          const username = prompt("Please enter your username:");
+          if (username) {
+            this.username = username;
+          }
+        },
+        updateProgress() {
+          if (this.currentProgress < this.targetProgress) {
+            this.currentProgress++;
+            requestAnimationFrame(this.updateProgress);
+          }
+        }
+      },
+      mounted() {
+        // Start the progress animation when the page loads
+        this.updateProgress();
+      }
+    });
+
+    app.mount("#app");
+  </script>
+</body>
+</html>
